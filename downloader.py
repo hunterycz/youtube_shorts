@@ -1,11 +1,11 @@
 # imports
-from pytube import YouTube
 import os
-import time
+from pytube import YouTube
 
 # directory paths
 MAIN_DIR = os.getcwd()
 PATH_TO_BACKGROUND_VIDEOS = os.path.join(MAIN_DIR, "background_video")
+PATH_TO_BACKGROUND_MUSIC = os.path.join(MAIN_DIR, "background_music")
 
 
 class Video:
@@ -46,18 +46,16 @@ class Video:
         except Exception as e:
             return f"Error Occurred: {e}"
 
-    def downloader(self, save_name: str) -> str:
+    def downloader_mp4(self, save_name: str) -> str:
         try:
-            # start the time variable
-            start = time.time()
-
             # get video with highest quality
             video = self.yt.streams.filter(
                 file_extension='mp4',
                 only_video=True).order_by('resolution').desc().first()
 
             if video is None:
-                return "No MP4 video available for download."
+                print("No MP4 video available for download.")
+                return
             # download the video to the background_video
             # directory with the "saved_name" for the title
             video.download(
@@ -65,14 +63,36 @@ class Video:
                 filename=f"{save_name}.mp4"
             )
 
-            # end time
-            end = time.time()
-            # return a string confirming the video
-            # was downloaded successfully to the directory
-            return f"Video: {save_name}.mp4 was downloaded successfully!\
-                     Total Time: {end-start:.2f} seconds"
+            # return a confirmation string
+            print(f"Video: {save_name}.mp4 was downloaded successfully!")
+            return
+
         except Exception as e:
-            return f"Error Occurred: {e}"
+            print(f"Error Occurred: {e}")
+            return
+
+    def downloader_mp3(self, save_name: str) -> str:
+        try:
+            # get video with only the audio
+            audio_stream = self.yt.streams.filter(only_audio=True).first()
+
+            if not audio_stream:
+                print("No Audio stream available for this video.")
+                return
+
+            # download the audio_stream
+            audio_stream.download(
+                output_path=PATH_TO_BACKGROUND_MUSIC,
+                filename=f"{save_name}.mp3"
+            )
+
+            # return a confirmation string
+            print(f"Audio: {save_name}.mp3 was downloaded successfully!")
+            return
+
+        except Exception as e:
+            print(f"Error Occurred: {e}")
+            return
 
 
 if __name__ == "__main__":
@@ -80,13 +100,20 @@ if __name__ == "__main__":
         # prompt the user for the url and
         # the new filename for the video
         url = str(input("Please enter the URL: "))
+        file_type = str(input("Is it mp3 or mp4: "))
         save_name = str(input("New Name for the Video: "))
 
         # create an instance of the Video class with the URL
         vid = Video(url)
 
-        # download the video
-        vid.downloader(save_name)
+        if file_type == "mp4":
+            # download the video
+            vid.downloader_mp4(save_name)
+        elif file_type == "mp3":
+            # download the audio
+            vid.downloader_mp3(save_name)
+        else:
+            print("File Type Incorrect Enter Correctly.")
 
         answer = str(input("Download Another Video? (y/n): ")).lower()
         if answer == 'n':

@@ -16,10 +16,16 @@ client = ElevenLabs(
 )
 
 
-# create a function to handle converting
-# the text to speech using the client
-
 def text_to_speech_file(text: str) -> str:
+    '''
+    Functions that connects to ElevenLabs API with login
+    credentials from the .env file then takes text and sends
+    it to ElevenLabs and returns a mp3 audio file to the
+    'stories_audio' directory.
+
+    Parameter(s):
+        text: string
+    '''
     try:
         # Calling the text_to_speech conversion API with detailed parameters
         response = client.text_to_speech.convert(
@@ -37,7 +43,7 @@ def text_to_speech_file(text: str) -> str:
         )
 
         # Generate a unique file name for the output MP3 file
-        save_file_path = f"{uuid.uuid4()}.mp3"
+        save_file_path = f"stories_audio/{uuid.uuid4()}.mp3"
 
         # writing the audio to a file
         with open(save_file_path, "wb") as f:
@@ -57,10 +63,66 @@ def text_to_speech_file(text: str) -> str:
         return None
 
 
+def text_file_exists_checker(file_name: str) -> bool:
+    '''
+    Checks if the file name exists with in the 'stories' directory
+
+    Parameter(s):
+        file_name: string
+
+    Returns:
+        bool: True
+        bool: False
+    '''
+    file_path = os.path.join("stories", file_name)
+
+    if not os.path.exists(file_path):
+        return False
+    else:
+        return True
+
+
+def format_text_file(file_name: str) -> str:
+    '''
+    Takes a file name and formats the text file
+    into a paragraph without any long whitespaces
+    or empty text.
+
+    Parameter(s):
+        file_name: string
+
+    Returns:
+        string: all text without whitespaces longer than 2 space wide
+    '''
+    # save the file path to a variable named file_path
+    file_path = os.path.join("stories", file_name)
+
+    # Read the text content from the file
+    with open(file_path, "r") as file:
+        lines = file.readlines()
+
+    # format the text so there is no double spacing
+    # or massive amounts of whitespace in the text
+    formatted_text = " ".join(line.strip() for line in lines if line.strip())
+
+    # return the newly formatted text
+    return formatted_text
+
+
 if __name__ == "__main__":
     while True:
-        # enter the text to generate to audio
-        txt = str(input("Enter Text to Convert to Audio: "))
+        file_to_convert = str(input("Enter File Name from 'Stories' Directory: "))
 
-        if not txt:
-            print("Please Enter Some Text")
+        if text_file_exists_checker(file_to_convert):
+            # now that it exists format it correctly
+            txt = format_text_file(file_to_convert)
+
+            # convert it to audio
+            text_to_speech_file(txt)
+
+            # break out of the loop
+            print("PROGRAM FINISHED")
+            print("EXITING NOW....")
+            break
+
+        print("File Not Found! Please Enter a Correct File Name.")

@@ -7,6 +7,7 @@ name = "pypi"
 pytube = "*"
 python-dotenv = "*"
 elevenlabs = "*"
+moviepy = "*"
 
 [dev-packages]
 
