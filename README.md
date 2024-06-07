@@ -16,3 +16,5 @@ Create YouTube Shorts using AI that is completely automated! Process of taking e
 # Dependencies/Libraries
 1) pytube
 2) python-dotenv
+3) elevenlabs
+4) moviepy
