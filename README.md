@@ -12,3 +12,7 @@ Create YouTube Shorts using AI that is completely automated! Process of taking e
 3) completed_videos: Holds all completed videos for content
 4) stories: Holds all reddit/AI generated stories in .txt format
 5) stories_audio: Holds all the reddit/AI generated stories in a mp3 converted audio format
+
+# Dependencies/Libraries
+1) pytube
+2) python-dotenv
