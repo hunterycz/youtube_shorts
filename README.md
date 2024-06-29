@@ -18,3 +18,4 @@ Create YouTube Shorts using AI that is completely automated! Process of taking e
 2) python-dotenv
 3) elevenlabs
 4) moviepy
+
