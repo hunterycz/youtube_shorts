@@ -67,10 +67,6 @@ if __name__ == "__main__":
     while True:
         file_to_convert = str(input("Enter File Name from 'Stories' Directory: "))
 
-        if text_file_exists_checker(file_to_convert):
-            # now that it exists format it correctly
-            txt = format_text_file(file_to_convert)
-
             # convert it to audio
             text_to_speech_file(txt)
 
