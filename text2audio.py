@@ -63,24 +63,6 @@ def text_to_speech_file(text: str) -> str:
         return None
 
 
-def text_file_exists_checker(file_name: str) -> bool:
-    '''
-    Checks if the file name exists with in the 'stories' directory
-
-    Parameter(s):
-        file_name: string
-
-    Returns:
-        bool: True
-        bool: False
-    '''
-    file_path = os.path.join("stories", file_name)
-
-    if not os.path.exists(file_path):
-        return False
-    else:
-        return True
-
 if __name__ == "__main__":
     while True:
         file_to_convert = str(input("Enter File Name from 'Stories' Directory: "))
