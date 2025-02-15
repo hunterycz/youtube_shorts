@@ -64,15 +64,4 @@ def text_to_speech_file(text: str) -> str:
 
 
 if __name__ == "__main__":
-    while True:
-        file_to_convert = str(input("Enter File Name from 'Stories' Directory: "))
 
-            # convert it to audio
-            text_to_speech_file(txt)
-
-            # break out of the loop
-            print("PROGRAM FINISHED")
-            print("EXITING NOW....")
-            break
-
-        print("File Not Found! Please Enter a Correct File Name.")
