@@ -81,34 +81,6 @@ def text_file_exists_checker(file_name: str) -> bool:
     else:
         return True
 
-
-def format_text_file(file_name: str) -> str:
-    '''
-    Takes a file name and formats the text file
-    into a paragraph without any long whitespaces
-    or empty text.
-
-    Parameter(s):
-        file_name: string
-
-    Returns:
-        string: all text without whitespaces longer than 2 space wide
-    '''
-    # save the file path to a variable named file_path
-    file_path = os.path.join("stories", file_name)
-
-    # Read the text content from the file
-    with open(file_path, "r") as file:
-        lines = file.readlines()
-
-    # format the text so there is no double spacing
-    # or massive amounts of whitespace in the text
-    formatted_text = " ".join(line.strip() for line in lines if line.strip())
-
-    # return the newly formatted text
-    return formatted_text
-
-
 if __name__ == "__main__":
     while True:
         file_to_convert = str(input("Enter File Name from 'Stories' Directory: "))
